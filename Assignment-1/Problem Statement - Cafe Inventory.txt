@@ -1,0 +1,252 @@
+Brief
+Problem statement
+The campus cafe keeps track of its products on paper. Build a console program that lets a staff member add products, see them, and answer simple questions about the stock. The program keeps showing a menu until the user chooses to exit.
+
+Each product has a name (String), a price (double) and a quantity (int). Your program must:
+
+Show a menu and keep running until the user chooses 0 (Exit).
+
+Add a product, rejecting a price of 0 or less and a negative quantity with an error message.
+
+Display all products, numbered from 1, or a message if there are none.
+
+Calculate the total value of the stock (price × quantity for every product).
+
+Calculate the average price, shown exactly and also rounded down.
+
+Restock a product by its number, and duplicate a product using a copy constructor.
+
+Count how many Product objects were created, using one static variable.
+
+Learning objectives
+Each part of the brief maps to a topic from class, so you can revise as you go.
+
+
+
+
+
+Step-by-step tasks
+
+Work in order and run your code after every step. Each step ends with a checkpoint to confirm it works.
+
+Set up the project.
+
+Create a project or folder cafe_inventory with two files, Product.java and Main.java.
+
+Paste the starter code into the matching files.
+
+Checkpoint: running Main shows the menu; entering 0 prints Goodbye! and Products created in total: 0.
+
+Warm-up: predict, then run.
+
+Create Warmup.java from the starter code below. On paper, write what you think it prints.
+
+Run it and compare. Keep both versions for the README.
+
+Checkpoint: you can explain every line of the output, including why one number is not what you expected.
+
+Complete the Product class.
+
+Finish the copy constructor: copy the three fields from other and increase totalProducts.
+
+Write stockValue() to return price * quantity.
+
+Write display() to print one line such as Samosa | Rs 15.0 | qty 20.
+
+Checkpoint: in a temporary main, create p1 = new Product("Tea", 10.5, 5) and p2 = new Product(p1), then set p2.name = "Coffee". p1 must still be Tea, and Product.totalProducts must be 2.
+
+Menu option 1: add a product.
+
+Inside case 1, add an if / else: if price <= 0 or quantity < 0, print an error message.
+
+If the array is full (count is 10), print a message instead. Otherwise create the product with the parameterized constructor, store it at products[count] and increase count.
+
+Checkpoint: adding Samosa, 15, 20 works. Adding a product with price -5 prints the error, and it is not counted in Product.totalProducts.
+
+Menu options 2 and 3: display and total.
+
+Option 2: if count is 0 print a message, otherwise use a for loop from 0 to count - 1 to print each product with its number (1, 2, 3, ...).
+
+Option 3: use a for loop to add up stockValue() in a local double variable, then print it. Print a message if count is 0.
+
+Checkpoint: with Samosa (15, 20) and Tea (10.5, 5), the total stock value is 352.5.
+
+Menu option 4: average price with casting.
+
+Add up all prices in a double and divide by count. The result must keep its decimal part.
+
+Print the exact average, then print (int) average on a second line labelled "Rounded down".
+
+Checkpoint: the same two products give 12.75 and 12.
+
+Menu options 5 and 6: restock and duplicate.
+
+Option 5: the input lines are given. Check that the number is between 1 and count and that the quantity is above 0, otherwise print an error. Otherwise use += on the product's quantity. Remember that product number 1 is index 0.
+
+Option 6: the input lines are given. Create a copy of that product with the copy constructor, change the copy's name to name + " (copy)", store it at products[count] and increase count.
+
+Checkpoint: restocking Tea by 10 gives 15. Duplicating Samosa adds Samosa (copy). Exiting now prints Products created in total: 3.
+
+Test everything and write the README.
+
+Run one full session that uses every menu option plus at least one invalid input, and save the console text as output.txt.
+
+Answer the questions in the deliverables section in README.md.
+
+
+Starter code
+Copy each file as given, then replace every TODO yourself. The no-argument and parameterized constructors are already written in Product; you write the copy constructor.
+
+roduct.java
+// Product.java
+public class Product {
+    static int totalProducts = 0;   // static variable: one copy shared by all products
+    String name;                    // instance variables: each product has its own
+    double price;
+    int quantity;
+    // 1. No-argument constructor: sets default values
+    Product() {
+        name = "Unknown";
+        price = 0;
+        quantity = 0;
+        totalProducts++;
+    }
+    // 2. Parameterized constructor
+    Product(String name, double price, int quantity) {
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        totalProducts++;
+    }
+    // 3. Copy constructor
+    Product(Product other) {
+        // TODO: copy name, price and quantity from other into this object
+        // TODO: remember to increase totalProducts too
+    }
+    // price * quantity (the int quantity is widened to double automatically)
+    double stockValue() {
+        // TODO: return the total value of this product's stock
+        return 0;
+    }
+    void display() {
+        // TODO: print one line, for example:  Samosa | Rs 15.0 | qty 20
+    }
+}
+
+
+Main.java
+// Main.java
+import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);   // reading input: provided for you
+        Product[] products = new Product[10];  // an array with room for 10 products
+        int count = 0;                         // how many products are stored so far
+        int choice;
+        do {
+            System.out.println("\n--- Campus Cafe Inventory ---");
+            System.out.println("1. Add product");
+            System.out.println("2. Display all products");
+            System.out.println("3. Total stock value");
+            System.out.println("4. Average price");
+            System.out.println("5. Restock a product");
+            System.out.println("6. Duplicate a product");
+            System.out.println("0. Exit");
+            System.out.print("Choose: ");
+            choice = sc.nextInt();
+            sc.nextLine();   // clears the leftover newline after nextInt()
+            if (choice < 0 || choice > 6) {
+                System.out.println("Invalid choice, try again.");
+            }
+            switch (choice) {
+                case 1:
+                    System.out.print("Name: ");
+                    String name = sc.nextLine();
+                    System.out.print("Price: ");
+                    double price = sc.nextDouble();
+                    System.out.print("Quantity: ");
+                    int quantity = sc.nextInt();
+                    sc.nextLine();
+                    // TODO: if the array is full (count is 10), print a message
+                    // TODO: else if price <= 0 or quantity < 0, print an error message
+                    // TODO: otherwise create the Product with the parameterized
+                    //       constructor, store it at products[count] and increase count
+                    break;
+                case 2:
+                    // TODO: if count is 0 print a message, otherwise loop from 0 to
+                    //       count - 1 and call display() on each product
+                    //       (print the number i + 1 before each one)
+                    break;
+                case 3:
+                    // TODO: loop over the stored products, add up stockValue()
+                    //       and print the total (message if count is 0)
+                    break;
+                case 4:
+                    // TODO: calculate the average price as a double and print it
+                    //       also print it rounded down using an explicit cast
+                    break;
+                case 5:
+                    System.out.print("Product number: ");
+                    int num = sc.nextInt();
+                    System.out.print("Quantity to add: ");
+                    int extra = sc.nextInt();
+                    sc.nextLine();
+                    // TODO: check num is between 1 and count and extra is above 0,
+                    //       otherwise print an error; then add extra to the quantity
+                    //       of products[num - 1]
+                    break;
+                case 6:
+                    System.out.print("Product number: ");
+                    int n = sc.nextInt();
+                    sc.nextLine();
+                    // TODO: check n is between 1 and count (and the array is not full)
+                    // TODO: create a copy of products[n - 1] with the copy constructor,
+                    //       add " (copy)" to the copy's name, store it at
+                    //       products[count] and increase count
+                    break;
+                case 0:
+                    System.out.println("Goodbye!");
+                    break;
+            }
+        } while (choice != 0);
+        System.out.println("Products created in total: " + Product.totalProducts);
+    }
+}
+
+Warmup.java
+// Warmup.java  (scratch file - predict the output BEFORE you run it)
+public class Warmup {
+    public static void main(String[] args) {
+        int a = (int) 7.9;
+        int x = 5;
+        double d = x;
+        int n = 130;
+        byte b = (byte) n;
+        System.out.println(a + " " + d + " " + b);
+        int day = 2;
+        switch (day) {
+            case 1: System.out.println("One");
+            case 2: System.out.println("Two");
+            case 3: System.out.println("Three");
+        }
+    }
+}
+
+Submission guidelines
+Submit one folder, or a GitHub repository link, containing:
+
+Product.java, Main.java and Warmup.java, all runnable.
+
+output.txt with the console text of your full test session.
+
+README.md answering these questions in 2–3 sentences each:
+
+What did you predict for Warmup.java, and what did it actually print? Explain the lines that surprised you.
+
+What is the difference between the static variable totalProducts and the instance variable name?
+
+What does the copy constructor do, and why does changing p2.name not change p1.name?
+
+Why does Java force you to write (int) average when converting a double to an int, and what happens to the decimal part?
+
+The code must compile with a standard JDK and use no libraries other than java.util.Scanner.
